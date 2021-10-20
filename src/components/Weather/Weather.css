@@ -1,0 +1,15 @@
+.weather-conatiner {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  align-items: center;
+  justify-content: center;
+}
+.MuiAutocomplete-root {
+  display: flex;
+  margin-top: 40px;
+  align-items: center !important;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}

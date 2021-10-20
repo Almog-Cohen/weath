@@ -1,0 +1,18 @@
+.header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button-container {
+  display: flex;
+}
+
+.button {
+  justify-content: center;
+  text-align: center;
+  margin-top: 12px;
+  margin-right: 40px;
+  width: 70px;
+  height: 60px;
+}
