@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { validateSearchInput } from "../../utils/formValidation";
 import { useSelector } from "react-redux";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -8,42 +9,58 @@ import IconButton from "@mui/material/IconButton";
 import "./SearchBar.css";
 
 const SearchBar = () => {
-  const [searchInput, setSearchInput] = useState("day");
+  const [searchInput, setSearchInput] = useState(null);
+  const [errors, setErrors] = useState(null);
   const listOfSearchedWeather = useSelector(
     (state) => state.weather.searchWordInfo
   );
-  console.log(searchInput);
+
+  // using formik for form state management, no need for redux here..
+
+  const change = (change) => {
+    setSearchInput(change.target.value);
+    const inputError = validateSearchInput(searchInput);
+    if (inputError) setErrors(inputError);
+  };
+
+  const handleSubmit = () => {
+    console.log(" i have submitted");
+  };
+
   return (
-    <div className="search-bar">
-      <Autocomplete
-        disablePortal
-        id="combo-box-demo"
-        options={listOfSearchedWeather}
-        sx={{ width: 300 }}
-        getOptionLabel={(option) => option.LocalizedName}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            onChange={(txtInput) => setSearchInput(txtInput.target.value)}
-            label="Type name of city"
+    <div c>
+      <form className="search-bar" onSubmit={() => handleSubmit}>
+        <div>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={listOfSearchedWeather}
+            sx={{ width: 300 }}
+            getOptionLabel={(option) => option.LocalizedName}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                // error={}
+                // helperText={}
+                // onChange={(txtInput) => setSearchInput(txtInput.target.value)}
+                onChange={(txtInput) => change(txtInput)}
+                // value={formik.values.searchText}
+                label="Type name of city"
+              />
+            )}
           />
-        )}
-      />
-      <IconButton>
-        <SearchIcon />
-      </IconButton>
+        </div>
+        <div>
+          <IconButton
+            type="submit"
+            disabled={!searchInput && validateSearchInput(searchInput)}
+          >
+            <SearchIcon />
+          </IconButton>
+        </div>
+      </form>
     </div>
   );
 };
-
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-];
 
 export default SearchBar;

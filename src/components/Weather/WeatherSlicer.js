@@ -5,6 +5,14 @@ import {
   fiveDaysForecasts,
   currentLocation,
 } from "../../utils/testData";
+
+const removeFromFavoritesList = (favoritesList, removeSpesificWeather) => {
+  const newFavoritesList = favoritesList.filter((weatherObject) => {
+    return weatherObject !== removeSpesificWeather;
+  });
+  return newFavoritesList;
+};
+
 export const getWeatherInfo = createAsyncThunk(
   "weather/getWeather",
   async (searchWord) => {
@@ -29,7 +37,15 @@ export const weatherSlice = createSlice({
         favoriteList: [...state.favoriteList, action.payload],
       };
     },
-    removeFromFavorites(state) {},
+    removeFromFavorites(state, action) {
+      return {
+        ...state,
+        favoriteList: removeFromFavoritesList(
+          state.favoriteList,
+          action.payload
+        ),
+      };
+    },
   },
   extraReducers: {
     [getWeatherInfo.pending]: (state, action) => {

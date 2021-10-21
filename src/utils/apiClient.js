@@ -12,10 +12,6 @@ export async function autoCompleteSearchWeather(searchWord) {
       `${WEATHER_API_URL}/locations/v1/cities/autocomplete`,
       {
         params,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          crossDomain: true,
-        },
       }
     );
     console.log(response.data);
